@@ -21,4 +21,6 @@ class Users(BASE):
     is_deleted = Column(Boolean,default=False)
     
     # relation
-    org = relationship("Organization",backref="users")
+    organization = relationship("Organization", back_populates="users")
+
+    

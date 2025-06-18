@@ -4,9 +4,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import List
-from datetime import date
+# from datetime import date
 from datetime import date as current_date
 from typing import Optional
+from datetime import datetime, date
 
 router = APIRouter()
 SessionModel.metadata.create_all(bind=engine)
@@ -34,16 +35,25 @@ class SessionUpdate(BaseModel):
     start_date: Optional[current_date] = None
     end_date: Optional[current_date] = None        
 
-# Function to determine session status
-def determine_status(start_date: current_date, end_date: current_date) -> str:
-    today = current_date.today()
+
+def determine_status(start_date: date, end_date: date) -> str:
+    today = datetime.today().date()  # Get today's date
     
-    if start_date > today:
-        return "New"  # The session is upcoming (future start date)
+    # Normalize to date for comparison
+    if isinstance(start_date, datetime):
+        start_date = start_date.date()
+    if isinstance(end_date, datetime):
+        end_date = end_date.date()
+    
+    # Check if the session is created today
+    if start_date == today:
+        return "New"  # The session is newly created today
     elif start_date <= today <= end_date:
         return "Active"  # The session is currently ongoing
+    elif today > end_date:
+        return "Closed"  # The session has ended
     else:
-        return "Closed"  # The session has ended (past end date)
+        return "New" 
 
 # POST: Create a new session
 @router.post("/sessions/", response_model=SessionRead)

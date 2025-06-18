@@ -14,7 +14,7 @@ class Employee(BASE):
     designation = Column(String(100), nullable=False)
     role = Column(String(50), nullable=False)  # Role can be 'Member', 'Manager', 'HR Admin'
      # Add manager_name column
-    manager_name = Column(String, nullable=True)
+    manager_name = Column(String(100), nullable=True)  # Specify length for VARCHAR
     department_id = Column(Integer, ForeignKey('tbl_department.department_id', ondelete="CASCADE"), nullable=True)
     project_id = Column(Integer, ForeignKey('tbl_project.project_id', ondelete="CASCADE"), nullable=True)
  

@@ -21,4 +21,6 @@ class Organization(BASE):
     password = Column(String(255), nullable=False)
     full_name = Column(String(255), nullable=False)  
 
+    users = relationship("Users", back_populates="organization")
+    
     

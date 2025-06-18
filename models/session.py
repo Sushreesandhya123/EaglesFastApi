@@ -12,5 +12,6 @@ class SessionModel(BASE):
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
     status = Column(String(50), nullable=False)
+    
 
     

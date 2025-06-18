@@ -3,7 +3,8 @@ from pydantic import BaseModel
 from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 from router import departments,manager,project,employee,performanceparameter,session,organization,sessionentry,performancerating
-from router.users import user
+from router.users import user,login
+
 
 app = FastAPI(title="Eagles")
 
@@ -14,6 +15,11 @@ app.add_middleware(
    allow_credentials=True,
    allow_methods=["*"],
    allow_headers=["*"],
+)
+app.include_router(
+    login.router,
+    tags=["Login"],
+    prefix="/Login"
 )
 
 app.include_router(
